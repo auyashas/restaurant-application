@@ -16,27 +16,32 @@ session_start();
 
 <body>
     <header>
-        <h1>The Malabar Table</h1>
-        <nav>
+        <a href="index.php" class="logo"><h1>The Malabar Table</h1></a>
+
+        <button class="hamburger-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <nav class="nav-links">
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="menu.php">Menu</a></li>
                 <li><a href="special_offers.php">Special Offers</a></li>
                 <?php if (isset($_SESSION['user_id'])) { ?>
-                    <div class="dropdown">
-                        <li>Reserve</li>
-                        <div class="dropdown-content">
-                            <a href="reservation.php">Reserve a Table</a>
-                            <a href="dashboard.php">Check Reservation</a>
-                        </div>
-                    </div>
-                <?php } ?>
-                <li><a href="about.php">About</a></li>
-                <li><a href="contact.php">Contact</a></li>
-                <?php if (isset($_SESSION['user_id'])) { ?>
-                    <a href="logout.php" class="button">Logout</a>
+                    <li><a href="reservation.php">Reserve a Table</a></li>
+                    <li><a href="dashboard.php">My Dashboard</a></li>
                 <?php } else { ?>
-                    <a href="login.php" class="button">Login</a>
+                    <li><a href="login.php">Reserve a Table</a></li>
+                <?php } ?>
+                
+                <li><a href="about.php">About Us</a></li>
+                <li><a href="contact.php">Contact Us</a></li>
+                <?php if (isset($_SESSION['user_id'])) { ?>
+                    <li><a href="logout.php" class="button">Logout</a></li>
+                <?php } else { ?>
+                    <li><a href="login.php" class="button">Login</a></li>
                 <?php } ?>
             </ul>
         </nav>
