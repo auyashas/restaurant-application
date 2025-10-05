@@ -7,6 +7,10 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <title>The Malabar Table</title>
 </head>
 
@@ -15,9 +19,9 @@ session_start();
         <h1>The Malabar Table</h1>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Menu</a></li>
-                <li><a href="#">Special Offers</a></li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="menu.php">Menu</a></li>
+                <li><a href="special_offers.php">Special Offers</a></li>
                 <?php if (isset($_SESSION['user_id'])) { ?>
                     <div class="dropdown">
                         <li>Reserve</li>
@@ -27,12 +31,12 @@ session_start();
                         </div>
                     </div>
                 <?php } ?>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-                <?php if(isset($_SESSION['user_id'])) { ?>
-                    <a href="logout.php" class="logout-btn">Logout</a>
-                <?php }else {?>
-                    <a href="login.php" class="login-btn">Login</a>
+                <li><a href="about.php">About</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <?php if (isset($_SESSION['user_id'])) { ?>
+                    <a href="logout.php" class="button">Logout</a>
+                <?php } else { ?>
+                    <a href="login.php" class="button">Login</a>
                 <?php } ?>
             </ul>
         </nav>

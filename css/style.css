@@ -1,0 +1,97 @@
+:root {
+    --primary-navy: #0D2840;
+    /* For headers, footers, and major headlines */
+    --accent-gold: #E0A040;
+    /* For buttons, links, and interactive elements */
+    --bg-light-gray: #F5F5F5;
+    /* For the main page background */
+    --text-dark-gray: #333333;
+    /* For all paragraphs and standard text */
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background-color: var(--bg-light-gray);
+    color: var(--text-dark-gray);
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--primary-navy);
+    color: white;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--accent-gold);
+}
+
+main {
+    flex-grow: 1;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+ul li {
+    list-style: none;
+}
+
+
+nav a {
+    font-size: 1.125rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    /* letter-spacing: 1px; */
+    padding: 10px 15px;
+    color: var(--bg-light-gray);
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+
+nav a:hover {
+    color: var(--accent-gold);
+}
+
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 5px;
+    background-color: var(--accent-gold);
+    color: var(--primary-navy);
+    font-weight: bold;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.button:hover {
+    text-decoration: none;
+    color: var(--primary-navy);
+    transform: scale(1.05);
+}
+
+footer{
+    background-color: var(--primary-navy);
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: auto;
+}
