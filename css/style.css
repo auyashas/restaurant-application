@@ -3,10 +3,14 @@
 /* =================================== */
 
 :root {
-    --primary-navy: #0D2840;      /* For headers, footers, and major headlines */
-    --accent-gold: #E0A040;       /* For buttons, links, and interactive elements */
-    --bg-light-gray: #F5F5F5;     /* For the main page background */
-    --text-dark-gray: #333333;      /* For all paragraphs and standard text */
+    --primary-navy: #0D2840;
+    /* For headers, footers, and major headlines */
+    --accent-gold: #E0A040;
+    /* For buttons, links, and interactive elements */
+    --bg-light-gray: #F5F5F5;
+    /* For the main page background */
+    --text-dark-gray: #333333;
+    /* For all paragraphs and standard text */
 }
 
 *,
@@ -87,7 +91,8 @@ h1 {
 /* --- MOBILE MENU STYLES (Default) --- */
 
 .hamburger-menu {
-    display: flex; /* Visible on mobile */
+    display: flex;
+    /* Visible on mobile */
     flex-direction: column;
     justify-content: space-around;
     width: 2rem;
@@ -106,23 +111,23 @@ h1 {
 }
 
 .nav-links {
-    display: none; 
+    display: none;
     position: absolute;
-    top: 100%; 
+    top: 100%;
     left: 0;
     width: 100%;
     height: auto;
     background-color: var(--primary-navy);
     flex-direction: column;
     align-items: center;
-    padding-bottom: 1rem; 
+    padding-bottom: 1rem;
 }
 
 .nav-links.active {
     display: flex;
 }
 
-.nav-links ul {
+.nav-links>ul {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,18 +140,37 @@ h1 {
     list-style: none;
 }
 
+.dropdown li,
 .nav-links a {
-    font-size: 1rem; 
+    font-size: 1rem !important;
     font-weight: bold;
     text-transform: uppercase;
     color: var(--bg-light-gray);
-    text-decoration: none;
     padding: 10px 15px;
     transition: color 0.2s ease-in-out;
+    text-decoration: none;
+    cursor: pointer;
 }
 
+.dropdown li:hover,
 .nav-links a:hover {
     color: var(--accent-gold);
+}
+
+.dropdown-content {
+    display: contents;
+    /* Makes nested list items act like direct children */
+}
+
+.dropdown>a {
+    display: none;
+    /* Hides the main "Reservation" link on mobile */
+}
+
+.action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .button {
@@ -174,12 +198,12 @@ h1 {
 
     /* --- DESKTOP MENU STYLES --- */
     .hamburger-menu {
-        display: none; 
+        display: none;
     }
 
     header {
         padding: 0 2rem;
-    }   
+    }
 
     .nav-links {
         display: flex;
@@ -191,13 +215,74 @@ h1 {
         flex-direction: row;
     }
 
-    .nav-links ul {
+    .nav-links>ul {
         flex-direction: row;
         gap: 1rem;
     }
 
     .nav-links a {
-        font-size: 1.125rem; 
+        font-size: 1.125rem;
         padding: 10px;
+    }
+
+    .dropdown>a {
+        display: inline-block;
+        /* Or block, depending on your link styles */
+    }
+
+    /* This is the anchor for the dropdown menu */
+    .dropdown {
+        position: relative;
+    }
+
+    /* Hide the dropdown content by default */
+    .dropdown-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        /* width: 80%; */
+
+        /* --- The Centering Fix --- */
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-10px);
+        /* Center horizontally, start slightly up */
+        margin-top: 10px;
+        /* Adds a small, clean gap */
+
+        background-color: var(--primary-navy);
+        padding: 0.5rem 0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        min-width: 175px;
+        z-index: 10;
+        border-radius: 5px;
+        list-style: none;
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    }
+
+    .dropdown-content ul,
+    .dropdown-content li {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    /* Show the dropdown on hover */
+    .dropdown:hover .dropdown-content {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+        /* Move down to final centered position */
+    }
+
+    /* Style the links inside the dropdown */
+    .dropdown-content a {
+        text-align: left;
+        display: block;
+        width: 100%;
     }
 }
