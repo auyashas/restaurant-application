@@ -1,7 +1,7 @@
 <?php
 session_start();
-// A quick check to match the secure login script I sent earlier
-$is_logged_in = isset($_SESSION['email']);
+// This correctly checks for the user ID to see if the user is logged in
+$is_logged_in = isset($_SESSION['user_id']); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,14 +11,21 @@ $is_logged_in = isset($_SESSION['email']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+
     <title>The Malabar Table</title>
 </head>
 
-<body>
+<body class="<?php if(basename($_SERVER['PHP_SELF']) == 'index.php') echo 'home-page'; ?>">
     <header>
-        <a href="index.php" class="logo"><h1>The Malabar Table</h1></a>
+        <a href="index.php" class="logo">The Malabar Table</a>
 
         <button class="hamburger-menu">
             <span class="bar"></span>
@@ -55,4 +62,5 @@ $is_logged_in = isset($_SESSION['email']);
             </ul>
         </nav>
     </header>
-    <main>
+    
+    <main class="main-content">
