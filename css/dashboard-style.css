@@ -1,0 +1,149 @@
+/* =================================== */
+/* Dashboard Page Styles               */
+/* =================================== */
+
+.dashboard-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-navy);
+}
+
+/* --- Tabs --- */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-link {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    font-family: 'Montserrat', sans-serif;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    color: #888;
+    position: relative;
+    top: 1px; /* Aligns with bottom border */
+    border-bottom: 3px solid transparent;
+}
+
+.tab-link.active {
+    color: var(--primary-navy);
+    border-bottom-color: var(--accent-gold);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- Reservation Cards --- */
+.reservations-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.reservation-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.card-details p {
+    margin: 0.25rem 0;
+}
+
+.card-status {
+    text-align: center;
+}
+
+.status-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.status-confirmed {
+    background-color: #e0f2f1; /* Light green */
+    color: #00796b;
+}
+.status-cancelled {
+    background-color: #ffebee; /* Light red */
+    color: #c62828;
+}
+.status-completed {
+    background-color: #f3e5f5; /* Light purple */
+    color: #6a1b9a;
+}
+
+.card-actions {
+    text-align: right;
+}
+
+.cancel-btn {
+    background: #fbe9e7;
+    color: #d84315;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.cancel-btn:hover {
+    background: #ffccbc;
+}
+
+/* --- Empty State --- */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 8px;
+}
+
+.empty-state p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Responsive for Dashboard --- */
+@media (max-width: 600px) {
+    .reservation-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .card-actions {
+        text-align: center;
+    }
+}
