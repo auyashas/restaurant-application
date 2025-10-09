@@ -1,6 +1,5 @@
 <?php
 session_start();
-// This correctly checks for the user ID to see if the user is logged in
 $is_logged_in = isset($_SESSION['user_id']); 
 ?>
 <!DOCTYPE html>
@@ -26,19 +25,16 @@ $is_logged_in = isset($_SESSION['user_id']);
 <body class="<?php if(basename($_SERVER['PHP_SELF']) == 'index.php') echo 'home-page'; ?>">
     <header>
         <a href="index.php" class="logo">The Malabar Table</a>
-
         <button class="hamburger-menu">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
         </button>
-
         <nav class="nav-links">
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="menu.php">Menu</a></li>
                 <li><a href="special_offers.php">Special Offers</a></li>
-                
                 <?php if ($is_logged_in) { ?>
                     <li class="dropdown">
                         <a href="#">Reservation</a>
@@ -50,10 +46,8 @@ $is_logged_in = isset($_SESSION['user_id']);
                 <?php } else { ?>
                     <li><a href="login.php">Reservation</a></li>
                 <?php } ?>
-                
                 <li><a href="about.php">About Us</a></li>
                 <li><a href="contact.php">Contact Us</a></li>
-
                 <?php if ($is_logged_in) { ?>
                     <li><a href="logout.php" class="button logout-btn">Logout</a></li>
                 <?php } else { ?>

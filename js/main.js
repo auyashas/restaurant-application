@@ -1,5 +1,5 @@
 // Wait for the HTML document to be fully loaded before running any scripts
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     // --- 1. Initialize AOS (Animate On Scroll) ---
     AOS.init({
@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- 4. Homepage-Specific Scripts ---
-    // We check if the body has the 'home-page' class before running these
+    // Check if we are on the homepage by looking for the .home-page class on the body
     if (document.body.classList.contains('home-page')) {
-        
+
         // a) Transparent Header on Scroll Logic
         const header = document.querySelector('header');
         if (header) {
@@ -66,4 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
 });
+

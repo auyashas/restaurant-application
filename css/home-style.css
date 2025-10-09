@@ -1,15 +1,15 @@
 /* =================================== */
-/* 1. Content Section Overlap Fix      */
+/* 1. Homepage Layout Fixes            */
 /* =================================== */
 
-/* This is the key fix to make your content appear from behind the hero section */
+/* This pushes the main content down to account for the fixed header */
+
+
+/* General helper classes for content sections */
 .content-section {
-    position: relative; 
-    z-index: 2; /* Ensures it scrolls OVER the hero's fixed background */
-    background-color: var(--bg-light-gray); /* Default background */
+    padding: 4rem 2rem;
 }
 
-/* Use this class for sections that need a white background */
 .content-section.bg-white {
     background-color: #fff;
 }
@@ -24,8 +24,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 102vh;
-    margin-top: -80px;
+    height: 100vh;
+    /* Set to full viewport height */
     color: white;
     text-align: center;
     background-image: url('../images/hero-background2.jpg');
@@ -33,6 +33,7 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 
 .hero-section::before {
     content: '';
@@ -73,10 +74,6 @@
 /* 3. Home About Section Styles        */
 /* =================================== */
 
-.home-about {
-    padding: 4rem 2rem;
-}
-
 .home-about-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -103,14 +100,9 @@
     font-size: 1.1rem;
 }
 
-
 /* =================================== */
 /* 4. Featured Dishes Section Styles   */
 /* =================================== */
-
-.featured-dishes {
-    padding: 4rem 2rem;
-}
 
 .featured-dishes-container {
     max-width: 1200px;
@@ -163,68 +155,56 @@
 /* 5. Why Choose Us Section            */
 /* =================================== */
 
-.why-choose-us {
-    padding: 4rem 2rem;
-}
 .why-choose-us-container {
     max-width: 1200px;
     margin: 0 auto;
     text-align: center;
 }
-.why-choose-us h2 { 
-    font-size: 2.5rem; 
-    margin-bottom: 3rem; 
+
+.why-choose-us h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
 }
+
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
 }
+
 .feature-icon {
     font-size: 3rem;
     color: var(--accent-gold);
     margin-bottom: 1rem;
 }
-.feature-item h3 { 
-    font-size: 1.5rem; 
+
+.feature-item h3 {
+    font-size: 1.5rem;
 }
 
 /* =================================== */
 /* 6. Special Offers Slider Section    */
 /* =================================== */
 
-.special-offers {
-    padding: 4rem 2rem;
-}
 .offers-container {
     max-width: 1200px;
     margin: 0 auto;
     text-align: center;
 }
+
 .offers-container h2 {
     font-size: 2.5rem;
     margin-bottom: 3rem;
 }
-.swiper-slide.offer-card {
-    text-align: left;
-}
-.swiper-pagination-bullet-active {
-    background-color: var(--accent-gold) !important;
-}
-/* Add this to css/home-style.css */
-
-/* In css/home-style.css */
 
 .offer-card {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     overflow: hidden;
-    
-    /* --- The Equal Height Fix --- */
     display: flex;
     flex-direction: column;
-    height: 100%; /* Make card fill the entire slide space */
+    height: 100%;
 }
 
 .offer-card img {
@@ -233,12 +213,11 @@
     object-fit: cover;
 }
 
-/* This new container will hold all the text */
 .offer-card-content {
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* This is the magic part */
+    flex-grow: 1;
 }
 
 .offer-card-content h3 {
@@ -247,16 +226,19 @@
 
 .offer-card-content p {
     font-size: 0.95rem;
-    flex-grow: 1; /* Pushes content below it down (if any) */
+    flex-grow: 1;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: var(--accent-gold) !important;
 }
 
 /* =================================== */
-/* Testimonials Section Styles         */
+/* 7. Testimonials Section Styles      */
 /* =================================== */
 
 .testimonials {
-    padding: 4rem 2rem;
-    background-color: #eef1f3; /* A slightly different, cool gray background */
+    background-color: #eef1f3;
 }
 
 .testimonials-container {
@@ -280,8 +262,9 @@
     background-color: white;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     border-left: 5px solid var(--accent-gold);
+    text-align: left;
 }
 
 .testimonial-card blockquote {
@@ -298,15 +281,8 @@
     font-style: normal;
 }
 
-/* --- Desktop layout for Testimonials section --- */
-@media (min-width: 768px) {
-    .testimonials-grid {
-        grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
-    }
-}
-
 /* =================================== */
-/* 7. Responsive Styles for Homepage   */
+/* 8. Responsive Styles for Homepage   */
 /* =================================== */
 
 @media (max-width: 768px) {
@@ -328,4 +304,22 @@
     .dishes-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+CSS
+
+/* =================================== */
+/* 9. Responsive Overflow Fix          */
+/* =================================== */
+
+.home-about-container,
+.featured-dishes-container,
+.why-choose-us-container,
+.offers-container,
+.testimonials-container {
+    width: 100%; /* Forces the container to respect its parent's padding */
 }

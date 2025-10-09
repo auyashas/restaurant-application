@@ -4,15 +4,14 @@
 
 header {
     background-color: var(--primary-navy);
-    /* Solid navy by default for all pages */
+    height: var(--header-height);
     color: white;
     padding: 1rem 1.5rem;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    /* Sticky by default */
+    position: sticky; /* Sticky for all non-homepage pages */
     top: 0;
     z-index: 100;
     transition: background-color 0.4s ease;
@@ -24,24 +23,26 @@ header {
     color: var(--accent-gold);
     text-decoration: none;
     z-index: 10;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 /* =================================== */
 /* 2. Homepage-Specific Header States  */
 /* =================================== */
 
-/* On the homepage, the header starts as transparent and floating */
+/* On the homepage, the header is fixed to the top and transparent */
 .home-page header {
-    background-color: transparent;
+    position: fixed; /* Changed to fixed */
+    background-color: transparent ;
     box-shadow: none;
 }
 
-/* On scroll, the homepage header becomes solid and sticky */
+/* On scroll, the homepage header just gets a new background color */
 .home-page header.scrolled {
     background-color: var(--primary-navy);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); */
 }
+
 
 /* =================================== */
 /* 3. Navigation (Mobile First)        */
@@ -58,7 +59,6 @@ header {
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    /* Ensure it's clickable */
 }
 
 .hamburger-menu .bar {
@@ -82,7 +82,7 @@ header {
     display: block;
 }
 
-.nav-links>ul {
+.nav-links > ul {
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -101,7 +101,6 @@ header {
     font-weight: bold;
     text-transform: uppercase;
     color: white;
-    /* Set text color to white */
     text-decoration: none;
     transition: color 0.2s ease-in-out;
 }
@@ -110,22 +109,31 @@ header {
     color: var(--accent-gold);
 }
 
-/* Mobile dropdown items are just regular list items */
 .dropdown-content {
     display: contents;
 }
 
-.dropdown>a {
+.dropdown > a {
     display: none;
 }
 
+/* Adjustments for small mobile screens where header wraps */
+@media (max-width: 500px) {
+    :root {
+        --header-height: 110px; 
+    }
+    header {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        height: var(--header-height); /* Update height */
+    }
+}
 
 /* =================================== */
 /* 4. Media Query for Desktop Nav      */
 /* =================================== */
 
 @media (min-width: 900px) {
-
     .hamburger-menu {
         display: none;
     }
@@ -133,7 +141,7 @@ header {
     header {
         padding: 0 2rem;
     }
-
+    
     .nav-links {
         display: flex;
         position: static;
@@ -142,7 +150,7 @@ header {
         box-shadow: none;
     }
 
-    .nav-links>ul {
+    .nav-links > ul {
         flex-direction: row;
         align-items: center;
         gap: 1rem;
@@ -153,7 +161,7 @@ header {
         font-size: 1rem;
     }
 
-    .dropdown>a {
+    .dropdown > a {
         display: block;
     }
 
@@ -199,8 +207,6 @@ header {
     }
 
     .nav-links .button:hover {
-        color: var(--primary-navy) !important;
-        background-color: var(--accent-gold);
         transform: scale(1.05);
         text-decoration: none;
     }
