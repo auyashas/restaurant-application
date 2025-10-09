@@ -83,7 +83,7 @@ $mysqli->close();
             <ul class="sidebar-nav">
                 <li><a href="admin_dashboard.php">Dashboard</a></li>
                 <li><a href="manage_menu.php" class="active">Manage Menu</a></li>
-                <li><a href="#">Special Offers</a></li>
+                <li><a href="manage_offers.php">Special Offers</a></li>
                 <li><a href="#">Manage Admins</a></li>
             </ul>
             <div class="sidebar-footer">
@@ -152,7 +152,7 @@ $mysqli->close();
                                         <td><?php echo htmlspecialchars($item['category']); ?></td>
                                         <td>₹<?php echo htmlspecialchars($item['price']); ?></td>
                                         <td class="actions">
-                                            <a href="#" class="edit-btn">Edit</a>
+                                            <a href="edit_menu_item.php?id=<?php echo $item['id']; ?>" class="edit-btn">Edit</a>
                                             <a href="delete_menu_item.php?id=<?php echo $item['id']; ?>" class="delete-btn">Delete</a>
                                         </td>
                                     </tr>

@@ -242,3 +242,12 @@ body {
         grid-column: 1 / -1;
     }
 }   
+
+/* Styles for image preview on edit pages */
+.image-preview {
+    margin-top: 10px;
+}
+.image-preview img {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
