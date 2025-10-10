@@ -45,7 +45,7 @@ $mysqli->close();
                 <li><a href="admin_dashboard.php" class="active">Dashboard</a></li>
                 <li><a href="manage_menu.php">Manage Menu</a></li>
                 <li><a href="manage_offers.php">Special Offers</a></li>
-                <li><a href="#">Manage Admins</a></li>
+                <li><a href="manage_admins.php">Manage Admins</a></li>
             </ul>
             <div class="sidebar-footer">
                 <p><?php echo htmlspecialchars($_SESSION["admin_username"]); ?></p>

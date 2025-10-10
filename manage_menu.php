@@ -2,80 +2,107 @@
 session_start();
 require_once "config.php";
 
-// Check if the admin is logged in, otherwise redirect to login page
+// Auth check
 if (!isset($_SESSION["admin_loggedin"]) || $_SESSION["admin_loggedin"] !== true) {
     header("location: admin_login.php");
     exit;
 }
 
+// Define variables and initialize with empty values
+$name = $description = $price = $category = $image_path = "";
+$name_err = $price_err = $category_err = $image_err = "";
+
 // --- Logic to ADD a new menu item with IMAGE UPLOAD ---
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_item'])) {
-    
-    // --- Image Upload Logic ---
-    $image_path = ""; // Default to empty path if no image is uploaded
-    if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
-        $target_dir = "uploads/menu/"; // IMPORTANT: Create this folder!
-        
-        // Create a unique filename to prevent files from being overwritten
+
+    // Validate name, price, category
+    if (empty(trim($_POST["name"]))) $name_err = "Name is required.";
+    else $name = trim($_POST["name"]);
+
+    if (empty(trim($_POST["price"]))) $price_err = "Price is required.";
+    else $price = trim($_POST["price"]);
+
+    if (empty(trim($_POST["category"]))) $category_err = "Category is required.";
+    else $category = trim($_POST["category"]);
+
+    $description = trim($_POST['description']);
+
+    // --- Image Upload Validation and Logic ---
+    if (empty($_FILES["image"]["name"])) {
+        $image_err = "An image is required.";
+    } else {
+        $target_dir = "uploads/menu/";
         $unique_name = uniqid() . '-' . basename($_FILES["image"]["name"]);
         $target_file = $target_dir . $unique_name;
-        
-        // Basic validation
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        // Check if file is a real image
         $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if($check !== false) {
-            // Attempt to move the uploaded file to your folder
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                $image_path = $target_file; // This is the path we'll save in the database
-            } else {
-                // Handle upload error if needed
-            }
-        } else {
-            // Handle error if file is not an image
+        if ($check === false) {
+            $image_err = "File is not a valid image.";
+        }
+
+        // Check file size (e.g., 2MB limit)
+        if ($_FILES["image"]["size"] > 2000000) {
+            $image_err = "Sorry, your file is too large (2MB limit).";
+        }
+
+        // Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $image_err = "Sorry, only JPG, JPEG, & PNG files are allowed.";
         }
     }
 
-    // --- Database Insert Logic ---
-    $name = trim($_POST['name']);
-    $description = trim($_POST['description']);
-    $price = trim($_POST['price']);
-    $category = trim($_POST['category']);
+    // Check for errors before processing
+    if (empty($name_err) && empty($price_err) && empty($category_err) && empty($image_err)) {
+        // Attempt to move the uploaded file
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            $image_path = $target_file;
 
-    if (!empty($name) && !empty($price) && !empty($category)) {
-        $sql = "INSERT INTO menu_items (name, description, price, category, image_path) VALUES (?, ?, ?, ?, ?)";
-        if ($stmt = $mysqli->prepare($sql)) {
-            $stmt->bind_param("ssdss", $name, $description, $price, $category, $image_path);
-            $stmt->execute();
-            $stmt->close();
-            // Redirect to refresh the page and show the new item
-            header("location: manage_menu.php");
-            exit();
+            // Proceed with database insert
+            $sql = "INSERT INTO menu_items (name, description, price, category, image_path) VALUES (?, ?, ?, ?, ?)";
+            if ($stmt = $mysqli->prepare($sql)) {
+                $stmt->bind_param("ssdss", $name, $description, $price, $category, $image_path);
+                if ($stmt->execute()) {
+                    // Set a success message in the session
+                    $_SESSION['success_message'] = "Menu item added successfully!";
+
+                    // Redirect to refresh the page
+                    header("location: manage_menu.php");
+                    exit();
+                } else {
+                    echo "Database insert failed.";
+                }
+                $stmt->close();
+            }
+        } else {
+            $image_err = "Sorry, there was an error uploading your file.";
         }
     }
 }
 
 // --- Logic to FETCH all menu items ---
 $menu_items = [];
-$sql = "SELECT * FROM menu_items ORDER BY category, name";
-if ($result = $mysqli->query($sql)) {
+$sql_fetch = "SELECT * FROM menu_items ORDER BY category, name";
+if ($result = $mysqli->query($sql_fetch)) {
     while ($row = $result->fetch_assoc()) {
         $menu_items[] = $row;
     }
     $result->free();
 }
-$mysqli->close();
+// Note: We don't close the connection here if the POST fails, so the page can still fetch items
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Menu - Admin</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/admin-style.css">
 </head>
+
 <body>
     <div class="admin-wrapper">
         <aside class="admin-sidebar">
@@ -84,7 +111,7 @@ $mysqli->close();
                 <li><a href="admin_dashboard.php">Dashboard</a></li>
                 <li><a href="manage_menu.php" class="active">Manage Menu</a></li>
                 <li><a href="manage_offers.php">Special Offers</a></li>
-                <li><a href="#">Manage Admins</a></li>
+                <li><a href="manage_admins.php">Manage Admins</a></li>
             </ul>
             <div class="sidebar-footer">
                 <p><?php echo htmlspecialchars($_SESSION["admin_username"]); ?></p>
@@ -105,23 +132,32 @@ $mysqli->close();
                         <div class="form-group">
                             <label for="name">Dish Name</label>
                             <input type="text" id="name" name="name" required>
+                            <span class="error-text"><?php echo $name_err; ?></span>
                         </div>
                         <div class="form-group">
-                            <label for="price">Price ₹</label>
+                            <label for="price">Price (₹)</label>
                             <input type="number" id="price" name="price" step="0.01" required>
+                            <span class="error-text"><?php echo $price_err; ?></span>
                         </div>
                         <div class="form-group">
                             <label for="category">Category</label>
                             <select id="category" name="category" required>
-                                <option value="Appetizer">Appetizer</option>
-                                <option value="Main Course">Main Course</option>
-                                <option value="Dessert">Dessert</option>
-                                <option value="Beverage">Beverage</option>
+                                <option value="">-- Select a Category --</option>
+                                <option value="Starters">Starters</option>
+                                <option value="Soups">Soups</option>
+                                <option value="North Indian">North Indian</option>
+                                <option value="South Indian">South Indian</option>
+                                <option value="Rice & Noodles">Rice & Noodles</option>
+                                <option value="Breads">Breads</option>
+                                <option value="Desserts">Desserts</option>
+                                <option value="Beverages">Beverages</option>
                             </select>
+                            <span class="error-text"><?php echo $category_err; ?></span>
                         </div>
                         <div class="form-group">
                             <label for="image">Dish Image</label>
-                            <input type="file" id="image" name="image" accept="image/png, image/jpeg">
+                            <input type="file" id="image" name="image" accept="image/png, image/jpeg" required>
+                            <span class="error-text"><?php echo $image_err; ?></span>
                         </div>
                         <div class="form-group full-width">
                             <label for="description">Description</label>
@@ -145,18 +181,24 @@ $mysqli->close();
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($menu_items as $item): ?>
+                                <?php if (empty($menu_items)): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($item['id']); ?></td>
-                                        <td><?php echo htmlspecialchars($item['name']); ?></td>
-                                        <td><?php echo htmlspecialchars($item['category']); ?></td>
-                                        <td>₹<?php echo htmlspecialchars($item['price']); ?></td>
-                                        <td class="actions">
-                                            <a href="edit_menu_item.php?id=<?php echo $item['id']; ?>" class="edit-btn">Edit</a>
-                                            <a href="delete_menu_item.php?id=<?php echo $item['id']; ?>" class="delete-btn">Delete</a>
-                                        </td>
+                                        <td colspan="5">No menu items have been added yet.</td>
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <?php foreach ($menu_items as $item): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($item['id']); ?></td>
+                                            <td><?php echo htmlspecialchars($item['name']); ?></td>
+                                            <td><?php echo htmlspecialchars($item['category']); ?></td>
+                                            <td>₹<?php echo htmlspecialchars($item['price']); ?></td>
+                                            <td class="actions">
+                                                <a href="edit_menu_item.php?id=<?php echo $item['id']; ?>" class="edit-btn">Edit</a>
+                                                <a href="delete_menu_item.php?id=<?php echo $item['id']; ?>" class="delete-btn" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -165,5 +207,15 @@ $mysqli->close();
         </div>
     </div>
     <script src="js/admin.js"></script>
+    <?php
+    if (isset($_SESSION['success_message'])) {
+        // Echo the JavaScript to show a standard alert box
+        echo "<script>alert('" . addslashes($_SESSION['success_message']) . "');</script>";
+
+        // Unset the message so it doesn't show again on refresh
+        unset($_SESSION['success_message']);
+    }
+    ?>
 </body>
+
 </html>

@@ -29,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt->bind_result($id, $username, $hashed_password, $role);
                     if ($stmt->fetch()) {
                         if (password_verify($password, $hashed_password)) {
-                            // Password is correct, start a new admin session
                             $_SESSION["admin_loggedin"] = true;
                             $_SESSION["admin_id"] = $id;
                             $_SESSION["admin_username"] = $username;
@@ -67,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/admin-style.css">
 </head>
-<body>
+<body class="admin-login-page">
     <div class="login-container">
         <div class="login-header">
             <h2>Admin Panel</h2>
