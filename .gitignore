@@ -1,1 +1,7 @@
-/uploads/
+# Ignore all image files inside the uploads subdirectories
+uploads/menu/*
+uploads/offers/*
+
+# But DO NOT ignore the .gitkeep files, so the folders are created
+!uploads/menu/.gitkeep
+!uploads/offers/.gitkeep
