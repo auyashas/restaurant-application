@@ -63,3 +63,17 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     text-decoration: none;
 }
+
+.alert {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    text-align: center;
+}
+
+.alert-error {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
