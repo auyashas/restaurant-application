@@ -1,0 +1,246 @@
+/* =================================== */
+/* Menu Page Styles                    */
+/* =================================== */
+
+.menu-page-header {
+    background: var(--primary-navy);
+    color: white;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.menu-page-header h1 {
+    font-size: 3rem;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.menu-page-header p {
+    font-style: italic;
+    font-size: 1.2rem;
+    opacity: 0.9;
+    color: var(--accent-gold);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+}
+
+/* --- Category Navigation --- */
+.category-nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: calc(var(--header-height) + 1rem); /* Position below the main sticky header */
+    z-index: 50;
+    border: 1px solid #eee;
+}
+
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.category-btn {
+     position: relative; /* Needed for the pseudo-element */
+    overflow: hidden; 
+    background-color: var(--bg-light-gray);
+    border: 1px solid #ddd;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    color: var(--text-dark-gray);
+    text-decoration: none;
+}
+
+.category-btn:hover,
+.category-btn:focus,
+.category-btn.active {
+    background-color: var(--accent-gold);
+    color: var(--primary-navy);
+    transform: translateY(-2px);
+    border-color: var(--accent-gold);
+    box-shadow: 0 8px 25px rgba(224, 160, 64, 0.3); /* ADDED THIS LINE */
+}
+.category-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.8s ease;
+}
+
+.category-btn:hover::before {
+    left: 100%;
+}
+
+/* --- Menu Sections --- */
+.menu-section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 180px; /* Offset for sticky navs */
+}
+
+/* In css/menu-style.css */
+
+.section-header {
+    background: var(--primary-navy);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    margin-bottom: 3rem;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(13, 40, 64, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+    position: relative;
+    color: white; /* Ensure text is white on the navy background */
+    padding-bottom: 0; /* Remove the old underline */
+}
+/* We don't need the ::after pseudo-element for the underline anymore */
+.section-header h2::after {
+    display: none;
+}
+
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--accent-gold);
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.menu-item {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    position: relative;   /* ADD THIS LINE */
+    overflow: hidden; 
+}
+
+/* In css/menu-style.css */
+
+.menu-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Start off-screen */
+    width: 100%;
+    height: 4px;
+    background: var(--accent-gold);
+    transition: left 0.5s ease;
+}
+
+.menu-item:hover::before {
+    left: 0; /* Slide in on hover */
+}
+
+.menu-item:hover {
+    transform: translateY(-5px) scale(1.03); /* Lifts up AND scales up */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    border-color: var(--accent-gold); /* Changes border color on hover */
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.8rem;
+    gap: 1rem;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 0.8rem;
+}
+
+.item-name {
+    font-size: 1.3rem;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-navy);
+    font-weight: 700;
+}
+
+.item-price {
+    font-size: 1.3rem;
+    color: var(--text-dark-gray);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.item-description {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .menu-page-header h1 { font-size: 2.5rem; }
+    .category-nav { position: static; }
+    .menu-section { scroll-margin-top: 100px; }
+}   
+
+/* In css/menu-style.css */
+
+.menu-item {
+    background: white;
+    border-radius: 10px;
+    /* We remove padding here because the image and content will handle it */
+    padding: 0; 
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    position: relative;
+    overflow: hidden;
+    display: flex; /* Helps with content alignment */
+    flex-direction: column;
+}
+
+.item-image {
+    width: 100%;
+    height: 300px;       /* Increased height for a taller ratio */
+    object-fit: cover;  /* This "zooms out" the image to fit */
+    background-color: #e0e0e0; /* A neutral background for any empty space */
+}
+
+.item-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* For equal height cards */
+}
+
+.item-description {
+    flex-grow: 1; /* Pushes tags/buttons to the bottom if added later */
+}
