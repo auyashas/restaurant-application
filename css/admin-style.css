@@ -1,7 +1,6 @@
 /* =================================== */
 /* 1. Variables & Global Setup         */
 /* =================================== */
-
 :root {
     --primary-navy: #0D2840;
     --accent-gold: #E0A040;
@@ -21,8 +20,6 @@ body {
 /* =================================== */
 /* 2. Login Page Layout                */
 /* =================================== */
-
-/* This style applies ONLY to the login page body to center the form */
 body.admin-login-page {
     display: grid;
     place-items: center;
@@ -68,14 +65,13 @@ body.admin-login-page {
 /* =================================== */
 /* 3. Dashboard Layout                 */
 /* =================================== */
-
 .admin-wrapper {
     display: grid;
     grid-template-columns: var(--sidebar-width) 1fr;
     min-height: 100vh;
 }
 
-/* --- Vertical Sidebar --- */
+/* --- Sidebar --- */
 .admin-sidebar {
     background-color: var(--primary-navy);
     color: #ccc;
@@ -117,7 +113,8 @@ body.admin-login-page {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.sidebar-nav a:hover, .sidebar-nav a.active {
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
     background-color: #1a3c5a;
     color: var(--accent-gold);
     border-left: 3px solid var(--accent-gold);
@@ -129,10 +126,17 @@ body.admin-login-page {
     text-align: center;
     border-top: 1px solid #1a3c5a;
 }
-.sidebar-footer p { margin: 0 0 0.5rem 0; color: white; }
-.sidebar-footer a { color: var(--accent-gold); }
 
-/* --- Main Content Area --- */
+.sidebar-footer p {
+    margin: 0 0 0.5rem 0;
+    color: white;
+}
+
+.sidebar-footer a {
+    color: var(--accent-gold);
+}
+
+/* --- Main Content --- */
 .admin-main-content {
     grid-column: 2 / 3;
 }
@@ -144,12 +148,16 @@ body.admin-login-page {
     display: flex;
     align-items: center;
 }
+
 .admin-header h1 {
     font-size: 1.8rem;
     color: var(--primary-navy);
     margin: 0;
 }
-.mobile-nav-toggle { display: none; }
+
+.mobile-nav-toggle {
+    display: none;
+}
 
 .admin-main {
     padding: 2rem;
@@ -159,36 +167,93 @@ body.admin-login-page {
     background: white;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     margin-bottom: 2rem;
 }
 
-/* =================================== */
-/* 4. Admin Forms & Tables             */
-/* =================================== */
+.content-card h2 {
+    margin-top: 0;
+}
 
+/* =================================== */
+/* 4. Dashboard Components             */
+/* =================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-navy);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* =================================== */
+/* 5. Admin Forms & Tables             */
+/* =================================== */
 .add-item-form {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .form-group {
     display: flex;
     flex-direction: column;
 }
+
 .form-group label {
     margin-bottom: 0.5rem;
     font-weight: bold;
 }
-.form-group input, .form-group select, .form-group textarea {
+
+.form-group input,
+.form-group select,
+.form-group textarea {
     padding: 0.8rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
     font-family: 'Lato', sans-serif;
 }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
     outline: none;
     border-color: var(--accent-gold);
     box-shadow: 0 0 0 3px rgba(224, 160, 64, 0.15);
@@ -205,31 +270,66 @@ body.admin-login-page {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 .submit-btn:hover {
     background-color: #1b4a6e;
 }
+
 .full-width {
     grid-column: 1 / -1;
 }
 
-.table-container { overflow-x: auto; }
+.table-container {
+    overflow-x: auto;
+}
+
 .data-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1.5rem;
 }
-.data-table th, .data-table td {
+
+.data-table th,
+.data-table td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #eee;
 }
+
 .data-table th {
-    background-color: #f8f9fa;
+    background-color: var(--primary-navy);
+    color: white;
     font-family: 'Montserrat', sans-serif;
 }
-.data-table tr:hover { background-color: #fafafa; }
 
-.data-table .actions a, .actions .disabled {
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.data-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.status-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.status-confirmed {
+    background-color: #e0f2f1;
+    color: #00796b;
+}
+
+.status-cancelled {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.data-table .actions a,
+.actions .disabled {
     text-decoration: none;
     padding: 5px 10px;
     border-radius: 3px;
@@ -237,12 +337,32 @@ body.admin-login-page {
     font-size: 0.85rem;
     display: inline-block;
 }
-.edit-btn { background-color: #e0f2f1; color: #00796b; }
-.delete-btn { background-color: #ffebee; color: #c62828; }
-.actions .disabled { background-color: #e0e0e0; color: #9e9e9e; cursor: not-allowed; }
 
-.image-preview { margin-top: 10px; }
-.image-preview img { border-radius: 5px; border: 1px solid #ccc; }
+.edit-btn {
+    background-color: #e0f2f1;
+    color: #00796b;
+}
+
+.delete-btn {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.actions .disabled {
+    background-color: #e0e0e0;
+    color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+.image-preview {
+    margin-top: 10px;
+}
+
+.image-preview img {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    max-width: 150px;
+}
 
 .checklist-container {
     max-height: 300px;
@@ -251,13 +371,32 @@ body.admin-login-page {
     border-radius: 5px;
     padding: 1rem;
 }
-.checklist-container fieldset { border: none; padding: 0; margin: 0 0 1rem 0; }
-.checklist-container legend { font-weight: bold; font-family: 'Montserrat', sans-serif; margin-bottom: 0.5rem; color: var(--primary-navy); }
-.checkbox-item { display: flex; align-items: center; margin-bottom: 0.5rem; }
-.checkbox-item input[type="checkbox"] { margin-right: 0.5rem; }
+
+.checklist-container fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+}
+
+.checklist-container legend {
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 0.5rem;
+    color: var(--primary-navy);
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
 
 textarea {
-    resize: none;
+    resize: vertical;
 }
 
 .error-text {
@@ -266,23 +405,60 @@ textarea {
     margin-top: 5px;
 }
 
-/* =================================== */
-/* 5. Admin Responsive Styles          */
-/* =================================== */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem; /* Creates space between header and form */
+}
 
+/* Overrides default margin on h2 when it's in the card-header */
+.card-header h2 {
+    margin-bottom: 0;
+}
+
+.cancel-link {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--text-dark-gray);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.cancel-link:hover {
+    color: var(--error-red);
+    text-decoration: underline;
+}
+
+.success-message {
+    padding: 1rem;  
+    margin: 1rem 2rem 1rem 2rem; 
+    background-color: #e0f2f1; 
+    color: #00796b; 
+    border-radius: 5px;
+    border-left: 5px solid #00796b;
+}
+
+/* =================================== */
+/* 6. Admin Responsive Styles          */
+/* =================================== */
 @media (max-width: 768px) {
     .admin-wrapper {
         grid-template-columns: 1fr;
     }
+
     .admin-sidebar {
         transform: translateX(-100%);
     }
+
     .admin-sidebar.active {
         transform: translateX(0);
     }
+
     .admin-main-content {
         grid-column: 1 / 2;
     }
+
     .mobile-nav-toggle {
         display: block;
         font-size: 1.5rem;
@@ -293,7 +469,7 @@ textarea {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
     .add-item-form {
         grid-template-columns: 1fr 1fr;
     }

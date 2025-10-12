@@ -9,10 +9,10 @@ if (!isset($_SESSION["admin_loggedin"]) || $_SESSION["admin_loggedin"] !== true)
 }
 
 // Define variables and initialize with empty values
-$name = $description = $price = $category = $image_path = "";
+$name = $description = $price = $category = "";
 $name_err = $price_err = $category_err = $image_err = "";
 
-// --- Logic to ADD a new menu item with IMAGE UPLOAD ---
+// --- Logic to ADD a new menu item ---
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_item'])) {
 
     // Validate name, price, category
@@ -27,47 +27,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_item'])) {
 
     $description = trim($_POST['description']);
 
-    // --- Image Upload Validation and Logic ---
+    // --- Image Upload Validation ---
     if (empty($_FILES["image"]["name"])) {
         $image_err = "An image is required.";
     } else {
         $target_dir = "uploads/menu/";
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
         $unique_name = uniqid() . '-' . basename($_FILES["image"]["name"]);
         $target_file = $target_dir . $unique_name;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        // Check if file is a real image
         $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if ($check === false) {
-            $image_err = "File is not a valid image.";
-        }
-
-        // Check file size (e.g., 2MB limit)
-        if ($_FILES["image"]["size"] > 2000000) {
-            $image_err = "Sorry, your file is too large (2MB limit).";
-        }
-
-        // Allow certain file formats
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            $image_err = "Sorry, only JPG, JPEG, & PNG files are allowed.";
-        }
+        if ($check === false) $image_err = "File is not a valid image.";
+        if ($_FILES["image"]["size"] > 2000000) $image_err = "Sorry, your file is too large (2MB limit).";
+        if (!in_array($imageFileType, ["jpg", "png", "jpeg"])) $image_err = "Sorry, only JPG, JPEG, & PNG files are allowed.";
     }
 
     // Check for errors before processing
     if (empty($name_err) && empty($price_err) && empty($category_err) && empty($image_err)) {
-        // Attempt to move the uploaded file
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             $image_path = $target_file;
 
-            // Proceed with database insert
             $sql = "INSERT INTO menu_items (name, description, price, category, image_path) VALUES (?, ?, ?, ?, ?)";
             if ($stmt = $mysqli->prepare($sql)) {
                 $stmt->bind_param("ssdss", $name, $description, $price, $category, $image_path);
                 if ($stmt->execute()) {
-                    // Set a success message in the session
                     $_SESSION['success_message'] = "Menu item added successfully!";
-
-                    // Redirect to refresh the page
                     header("location: manage_menu.php");
                     exit();
                 } else {
@@ -90,19 +77,17 @@ if ($result = $mysqli->query($sql_fetch)) {
     }
     $result->free();
 }
-// Note: We don't close the connection here if the POST fails, so the page can still fetch items
+$mysqli->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Menu - Admin</title>
     <link rel="stylesheet" href="css/admin-style.css">
 </head>
-
 <body>
     <div class="admin-wrapper">
         <aside class="admin-sidebar">
@@ -125,32 +110,43 @@ if ($result = $mysqli->query($sql_fetch)) {
                 <h1>Manage Menu</h1>
             </header>
 
+            <?php if (isset($_SESSION['success_message'])): ?>
+                <div class="success-message">
+                    <?php
+                        echo $_SESSION['success_message'];
+                        unset($_SESSION['success_message']);
+                    ?>
+                </div>
+            <?php endif; ?>
+
             <main class="admin-main">
                 <section class="content-card">
-                    <h2>Add New Menu Item</h2>
+                    <div class="card-header">
+                        <h2>Add New Menu Item</h2>
+                    </div>
                     <form action="manage_menu.php" method="POST" class="add-item-form" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="name">Dish Name</label>
-                            <input type="text" id="name" name="name" required>
+                            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
                             <span class="error-text"><?php echo $name_err; ?></span>
                         </div>
                         <div class="form-group">
                             <label for="price">Price (₹)</label>
-                            <input type="number" id="price" name="price" step="0.01" required>
+                            <input type="number" id="price" name="price" step="0.01" value="<?php echo htmlspecialchars($price); ?>" required>
                             <span class="error-text"><?php echo $price_err; ?></span>
                         </div>
                         <div class="form-group">
                             <label for="category">Category</label>
                             <select id="category" name="category" required>
-                                <option value="">-- Select a Category --</option>
-                                <option value="Starters">Starters</option>
-                                <option value="Soups">Soups</option>
-                                <option value="North Indian">North Indian</option>
-                                <option value="South Indian">South Indian</option>
-                                <option value="Rice & Noodles">Rice & Noodles</option>
-                                <option value="Breads">Breads</option>
-                                <option value="Desserts">Desserts</option>
-                                <option value="Beverages">Beverages</option>
+                                <option value="" disabled <?php if(empty($category)) echo 'selected'; ?>>-- Select a Category --</option>
+                                <option value="Starters" <?php if($category == 'Starters') echo 'selected'; ?>>Starters</option>
+                                <option value="Soups" <?php if($category == 'Soups') echo 'selected'; ?>>Soups</option>
+                                <option value="North Indian" <?php if($category == 'North Indian') echo 'selected'; ?>>North Indian</option>
+                                <option value="South Indian" <?php if($category == 'South Indian') echo 'selected'; ?>>South Indian</option>
+                                <option value="Rice & Noodles" <?php if($category == 'Rice & Noodles') echo 'selected'; ?>>Rice & Noodles</option>
+                                <option value="Breads" <?php if($category == 'Breads') echo 'selected'; ?>>Breads</option>
+                                <option value="Desserts" <?php if($category == 'Desserts') echo 'selected'; ?>>Desserts</option>
+                                <option value="Beverages" <?php if($category == 'Beverages') echo 'selected'; ?>>Beverages</option>
                             </select>
                             <span class="error-text"><?php echo $category_err; ?></span>
                         </div>
@@ -161,19 +157,21 @@ if ($result = $mysqli->query($sql_fetch)) {
                         </div>
                         <div class="form-group full-width">
                             <label for="description">Description</label>
-                            <textarea id="description" name="description" rows="3"></textarea>
+                            <textarea id="description" name="description" rows="3"><?php echo htmlspecialchars($description); ?></textarea>
                         </div>
-                        <button type="submit" name="add_item" class="submit-btn">Add Item</button>
+                        <button type="submit" name="add_item" class="submit-btn full-width">Add Item</button>
                     </form>
                 </section>
 
                 <section class="content-card">
-                    <h2>Current Menu</h2>
+                    <div class="card-header">
+                        <h2>Current Menu</h2>
+                    </div>
                     <div class="table-container">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Category</th>
                                     <th>Price</th>
@@ -183,15 +181,15 @@ if ($result = $mysqli->query($sql_fetch)) {
                             <tbody>
                                 <?php if (empty($menu_items)): ?>
                                     <tr>
-                                        <td colspan="5">No menu items have been added yet.</td>
+                                        <td colspan="5" style="text-align: center;">No menu items have been added yet.</td>
                                     </tr>
                                 <?php else: ?>
                                     <?php foreach ($menu_items as $item): ?>
                                         <tr>
-                                            <td><?php echo htmlspecialchars($item['id']); ?></td>
+                                            <td><img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" width="80"></td>
                                             <td><?php echo htmlspecialchars($item['name']); ?></td>
                                             <td><?php echo htmlspecialchars($item['category']); ?></td>
-                                            <td>₹<?php echo htmlspecialchars($item['price']); ?></td>
+                                            <td>₹<?php echo htmlspecialchars(number_format($item['price'], 2)); ?></td>
                                             <td class="actions">
                                                 <a href="edit_menu_item.php?id=<?php echo $item['id']; ?>" class="edit-btn">Edit</a>
                                                 <a href="delete_menu_item.php?id=<?php echo $item['id']; ?>" class="delete-btn" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
@@ -207,15 +205,5 @@ if ($result = $mysqli->query($sql_fetch)) {
         </div>
     </div>
     <script src="js/admin.js"></script>
-    <?php
-    if (isset($_SESSION['success_message'])) {
-        // Echo the JavaScript to show a standard alert box
-        echo "<script>alert('" . addslashes($_SESSION['success_message']) . "');</script>";
-
-        // Unset the message so it doesn't show again on refresh
-        unset($_SESSION['success_message']);
-    }
-    ?>
-</body>
-
+    </body>
 </html>

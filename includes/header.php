@@ -1,6 +1,6 @@
 <?php
 session_start();
-$is_logged_in = isset($_SESSION['user_id']); 
+$is_logged_in = isset($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,18 +11,20 @@ $is_logged_in = isset($_SESSION['user_id']);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Add SwiperJS CSS for sliders -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="css/home-style.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
-
+    <link rel="stylesheet" href="css/about-faq-style.css">
     <title>The Malabar Table</title>
 </head>
 
-<body class="<?php if(basename($_SERVER['PHP_SELF']) == 'index.php') echo 'home-page'; ?>">
+<body class="<?php if (basename($_SERVER['PHP_SELF']) == 'index.php') echo 'home-page'; ?>">
     <header>
         <a href="index.php" class="logo">The Malabar Table</a>
         <button class="hamburger-menu">
@@ -56,5 +58,5 @@ $is_logged_in = isset($_SESSION['user_id']);
             </ul>
         </nav>
     </header>
-    
+
     <main class="main-content">

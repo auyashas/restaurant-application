@@ -26,11 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_offer'])) {
     $start_date = !empty($_POST['start_date']) ? $_POST['start_date'] : null;
     $end_date = !empty($_POST['end_date']) ? $_POST['end_date'] : null;
 
-    // --- Image Upload Validation and Logic ---
+    // --- Image Upload Validation (Required) ---
     if (empty($_FILES["image"]["name"])) {
         $image_err = "A promotional image is required.";
     } else {
         $target_dir = "uploads/offers/";
+        // Create directory if it doesn't exist
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
+        
         $unique_name = uniqid() . '-' . basename($_FILES["image"]["name"]);
         $target_file = $target_dir . $unique_name;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -41,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_offer'])) {
         }
         
         if ($_FILES["image"]["size"] > 2000000) { // 2MB limit
-            $image_err = "Sorry, your file is too large.";
+            $image_err = "Sorry, your file is too large (Max 2MB).";
         }
 
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
@@ -59,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_offer'])) {
             if ($stmt = $mysqli->prepare($sql)) {
                 $stmt->bind_param("sssss", $title, $description, $image_path, $start_date, $end_date);
                 if($stmt->execute()){
+                    $_SESSION['success_message'] = "New offer added successfully!";
                     header("location: manage_offers.php");
                     exit();
                 } else {
@@ -74,16 +80,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_offer'])) {
 
 // --- Logic to FETCH all special offers ---
 $offers = [];
-$sql_fetch = "SELECT * FROM special_offers ORDER BY start_date DESC";
+$sql_fetch = "SELECT * FROM special_offers ORDER BY id DESC";
 if ($result = $mysqli->query($sql_fetch)) {
     while ($row = $result->fetch_assoc()) {
         $offers[] = $row;
     }
     $result->free();
 }
+
 $mysqli->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,7 +109,7 @@ $mysqli->close();
                 <li><a href="manage_admins.php">Manage Admins</a></li>
             </ul>
             <div class="sidebar-footer">
-                <p><?php echo htmlspecialchars($_SESSION["admin_username"]); ?></p>
+                <p>Welcome, <?php echo htmlspecialchars($_SESSION["admin_username"]); ?></p>
                 <a href="admin_logout.php">Logout</a>
             </div>
         </aside>
@@ -113,11 +119,22 @@ $mysqli->close();
                 <button class="mobile-nav-toggle">☰</button>
                 <h1>Manage Special Offers</h1>
             </header>
+            
+            <?php if(isset($_SESSION['success_message'])): ?>
+                <div class="success-message">
+                    <?php 
+                        echo $_SESSION['success_message']; 
+                        unset($_SESSION['success_message']);
+                    ?>
+                </div>
+            <?php endif; ?>
 
             <main class="admin-main">
                 <section class="content-card">
-                    <h2>Add New Offer</h2>
-                    <form action="manage_offers.php" method="POST" class="add-item-form" enctype="multipart/form-data">
+                    <div class="card-header">
+                        <h2>Add New Offer</h2>
+                    </div>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="add-item-form" enctype="multipart/form-data">
                         <div class="form-group full-width">
                             <label for="title">Offer Title</label>
                             <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" required>
@@ -140,12 +157,50 @@ $mysqli->close();
                             <input type="file" id="image" name="image" accept="image/png, image/jpeg" required>
                             <span class="error-text"><?php echo $image_err; ?></span>
                         </div>
-                        <button type="submit" name="add_offer" class="submit-btn">Add Offer</button>
+                        <button type="submit" name="add_offer" class="submit-btn full-width">Add Offer</button>
                     </form>
                 </section>
 
                 <section class="content-card">
-                    </section>
+                    <div class="card-header">
+                        <h2>Current Offers</h2>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($offers)): ?>
+                                    <tr>
+                                        <td colspan="6" style="text-align:center;">No special offers have been added yet.</td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php foreach ($offers as $item): ?>
+                                        <tr>
+                                            <td><img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" width="100"></td>
+                                            <td><?php echo htmlspecialchars($item['title']); ?></td>
+                                            <td><?php echo htmlspecialchars(substr($item['description'], 0, 50)) . '...'; ?></td>
+                                            <td><?php echo htmlspecialchars($item['start_date'] ? date('M j, Y', strtotime($item['start_date'])) : 'N/A'); ?></td>
+                                            <td><?php echo htmlspecialchars($item['end_date'] ? date('M j, Y', strtotime($item['end_date'])) : 'N/A'); ?></td>
+                                            <td class="actions">
+                                                <a href="edit_offer.php?id=<?php echo $item['id']; ?>" class="edit-btn">Edit</a>
+                                                <a href="delete_offer.php?id=<?php echo $item['id']; ?>" class="delete-btn" onclick="return confirm('Are you sure you want to delete this offer?');">Delete</a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </main>
         </div>
     </div>

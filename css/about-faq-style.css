@@ -183,3 +183,109 @@
     .content-section { padding: 2rem; }
     .page-container { padding: 2rem 1rem; }
 }   
+
+
+/* =================================== */
+/* 11. REFINED HOMEPAGE FAQ STYLES     */
+/* (Using your professional design)    */
+/* =================================== */
+
+.home-faq-container {
+    max-width: 900px; /* Centered and constrained width */
+    margin: 0 auto;
+    text-align: center; /* Center the main heading */
+}
+
+.home-faq-container h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.faq-accordion { /* This will be the new .faq-container */
+    margin-bottom: 3rem;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 1.5rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    color: var(--primary-navy);
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.faq-icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+    color: var(--accent-gold);
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 1.5rem;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px; /* Allows space for the answer to expand */
+    padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.faq-answer p {
+    font-size: 1rem;
+    line-height: 1.7;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+    margin: 0;
+}
+
+/* --- REFINED Contact CTA --- */
+.contact-cta {
+    background: var(--primary-navy);
+    color: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.contact-cta h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: white; /* Explicitly set color */
+}
+
+.contact-cta p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
