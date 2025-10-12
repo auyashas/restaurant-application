@@ -15,7 +15,7 @@ $id = 0;
 // --- PROCESSING FORM DATA WHEN FORM IS SUBMITTED (UPDATE) ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
-    
+
     // --- Handle New Image Upload ---
     $new_image_path = $_POST['current_image']; // Keep old image by default
     if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $target_dir = "uploads/menu/";
         $unique_name = uniqid() . '-' . basename($_FILES["image"]["name"]);
         $target_file = $target_dir . $unique_name;
-        
+
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             $new_image_path = $target_file;
             // If a new image is uploaded successfully, delete the old one
@@ -35,17 +35,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Prepare an update statement
     $sql = "UPDATE menu_items SET name=?, description=?, price=?, category=?, image_path=? WHERE id=?";
-    
+
     if ($stmt = $mysqli->prepare($sql)) {
-        $stmt->bind_param("ssdssi", 
-            $_POST['name'], 
-            $_POST['description'], 
-            $_POST['price'], 
-            $_POST['category'], 
+        $stmt->bind_param(
+            "ssdssi",
+            $_POST['name'],
+            $_POST['description'],
+            $_POST['price'],
+            $_POST['category'],
             $new_image_path,
             $id
         );
-        
+
         if ($stmt->execute()) {
             header("location: manage_menu.php");
             exit();
@@ -89,11 +90,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Edit Menu Item</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/admin-style.css">
 </head>
+
 <body>
     <div class="admin-wrapper">
         <aside class="admin-sidebar">
@@ -101,8 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <ul class="sidebar-nav">
                 <li><a href="admin_dashboard.php">Dashboard</a></li>
                 <li><a href="manage_menu.php" class="active">Manage Menu</a></li>
-                <li><a href="#">Special Offers</a></li>
-                <li><a href="#">Manage Admins</a></li>
+                <li><a href="manage_offers.php">Special Offers</a></li>
+                <li><a href="manage_admins.php">Manage Admins</a></li>
             </ul>
             <div class="sidebar-footer">
                 <p><?php echo htmlspecialchars($_SESSION["admin_username"]); ?></p>
@@ -112,13 +116,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="admin-main-content">
             <header class="admin-header">
+                <button class="mobile-nav-toggle">☰</button>
                 <h1>Edit Menu Item</h1>
             </header>
             <main class="admin-main">
                 <section class="content-card">
+                    <div class="card-header">
+                        <h2>Update Item Details</h2>
+                        <a href="manage_menu.php" class="cancel-link">Cancel</a>
+                    </div>
                     <form action="edit_menu_item.php" method="POST" class="add-item-form" enctype="multipart/form-data">
-                        <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-                        <input type="hidden" name="current_image" value="<?php echo $image_path; ?>"/>
+                        <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                        <input type="hidden" name="current_image" value="<?php echo $image_path; ?>" />
 
                         <div class="form-group">
                             <label>Dish Name</label>
@@ -131,16 +140,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="form-group">
                             <label>Category</label>
                             <select name="category" required>
-                                <option value="Appetizer" <?php if($category=="Appetizer") echo "selected"; ?>>Appetizer</option>
-                                <option value="Main Course" <?php if($category=="Main Course") echo "selected"; ?>>Main Course</option>
-                                <option value="Dessert" <?php if($category=="Dessert") echo "selected"; ?>>Dessert</option>
-                                <option value="Beverage" <?php if($category=="Beverage") echo "selected"; ?>>Beverage</option>
+                                <option value="Appetizer" <?php if ($category == "Appetizer") echo "selected"; ?>>Appetizer</option>
+                                <option value="Main Course" <?php if ($category == "Main Course") echo "selected"; ?>>Main Course</option>
+                                <option value="Dessert" <?php if ($category == "Dessert") echo "selected"; ?>>Dessert</option>
+                                <option value="Beverage" <?php if ($category == "Beverage") echo "selected"; ?>>Beverage</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>New Dish Image (Optional)</label>
                             <input type="file" name="image" accept="image/png, image/jpeg">
-                            <?php if(!empty($image_path)): ?>
+                            <?php if (!empty($image_path)): ?>
                                 <div class="image-preview">
                                     <p>Current Image:</p>
                                     <img src="<?php echo htmlspecialchars($image_path); ?>" alt="Current Image" width="100">
@@ -157,5 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </main>
         </div>
     </div>
+    <script src="js/admin.js"></script>
 </body>
+
 </html>

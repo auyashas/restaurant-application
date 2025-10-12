@@ -222,13 +222,14 @@ body.admin-login-page {
 .add-item-form {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem; /* Increased gap slightly */
 }
 
+/* General form styling, separate from grid layout */
 form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 1.5rem; /* Increased gap slightly */
 }
 
 .form-group {
@@ -279,12 +280,20 @@ form {
     grid-column: 1 / -1;
 }
 
+/* NEW: Fix for overflowing form elements */
+.add-item-form .form-group input,
+.add-item-form .form-group select,
+.add-item-form .form-group textarea,
+.add-item-form .submit-btn {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .table-container {
     overflow-x: auto;
 }
 
 .data-table {
-    width: 100%;
     border-collapse: collapse;
     margin-top: 1.5rem;
 }
@@ -294,6 +303,8 @@ form {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #eee;
+    white-space: nowrap;
+    overflow: scroll; 
 }
 
 .data-table th {
@@ -409,10 +420,9 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem; /* Creates space between header and form */
+    margin-bottom: 1.5rem;
 }
 
-/* Overrides default margin on h2 when it's in the card-header */
 .card-header h2 {
     margin-bottom: 0;
 }
@@ -431,10 +441,10 @@ textarea {
 }
 
 .success-message {
-    padding: 1rem;  
-    margin: 1rem 2rem 1rem 2rem; 
-    background-color: #e0f2f1; 
-    color: #00796b; 
+    padding: 1rem;
+    margin: 1rem 2rem 1rem 2rem;
+    background-color: #e0f2f1;
+    color: #00796b;
     border-radius: 5px;
     border-left: 5px solid #00796b;
 }
@@ -457,6 +467,7 @@ textarea {
 
     .admin-main-content {
         grid-column: 1 / 2;
+        min-width: 0;
     }
 
     .mobile-nav-toggle {

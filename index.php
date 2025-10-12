@@ -110,20 +110,7 @@ $mysqli->close();
     </div>
 </section>
 
-<!-- ELEGANT GALLERY PROMO SECTION -->
-<section class="home-gallery-promo content-section" data-aos="fade-up" data-aos-duration="800">
-    <div class="home-gallery-promo-container">
-        <div class="gallery-promo-text">
-            <h2>A Feast for the Eyes</h2>
-            <p>Explore the vibrant colors, rich textures, and elegant ambiance of The Malabar Table. Our gallery is a journey through the moments we cherish and the dishes we are proud to serve.</p>
-            <a href="gallery.php" class="button">View Gallery</a>
-        </div>
-        <div class="gallery-promo-images">
-            <img src="images/promo-1.jpg" alt="A beautifully plated dish from the menu" class="promo-img-1">
-            <img src="images/promo-2.jpg" alt="The elegant interior of the restaurant" class="promo-img-2">
-        </div>
-    </div>
-</section>
+
 
 <section class="why-choose-us content-section" data-aos="fade-up" data-aos-duration="800">
      <div class="why-choose-us-container">
