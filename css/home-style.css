@@ -1,23 +1,132 @@
 /* =================================== */
-/* 1. Homepage Layout Fixes            */
+/* PROFESSIONAL RESTAURANT HOMEPAGE CSS */
+/* Colorblind-Friendly | Smooth Animations | Modern Design */
 /* =================================== */
 
-/* This pushes the main content down to account for the fixed header */
+/* ============================================ */
+/* 1. ROOT VARIABLES - Colorblind Safe Palette */
+/* ============================================ */
+:root {
+    /* Colorblind-friendly primary colors */
+    --primary-deep-blue: #0D5C8C;
+    --primary-navy: #1A4D6D;
+    --accent-warm-orange: #E67E22;
+    --accent-gold: #D4AF37;
 
+    /* Neutral colors with good contrast */
+    --bg-cream: #FAF8F5;
+    --bg-light-gray: #F5F7FA;
+    --text-dark: #2C3E50;
+    --text-medium: #5A6C7D;
+    --text-light: #95A5A6;
+
+    /* Semantic colors (colorblind safe) */
+    --success-green: #27AE60;
+    --warning-amber: #F39C12;
+    --error-red: #C0392B;
+
+    /* Shadows and overlays */
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --overlay-dark: rgba(26, 77, 109, 0.75);
+}
+
+/* ============================================ */
+/* 2. SMOOTH SCROLLING & BASE ANIMATIONS       */
+/* ============================================ */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+* {
+    box-sizing: border-box;
+}
 
 /* General helper classes for content sections */
 .content-section {
-    padding: 4rem 2rem;
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
 }
 
 .content-section.bg-white {
     background-color: #fff;
 }
 
+/* Fade-in animation for sections */
+@keyframes fadeInUp {
+    from {
+        /* opacity: 0; */
+        transform: translateY(30px);
+    }
 
-/* =================================== */
-/* 2. Hero Section Styles              */
-/* =================================== */
+    to {
+        /* opacity: 1; */
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* ============================================ */
+/* 3. HERO SECTION - Eye-Catching & Animated   */
+/* ============================================ */
 
 .hero-section {
     position: relative;
@@ -25,15 +134,19 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+    min-height: 600px;
     color: white;
     text-align: center;
     background-image: url('../images/hero-background2.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
+    /* Parallax effect */
+    overflow: hidden;
 }
 
-
+/* Animated gradient overlay */
 .hero-section::before {
     content: '';
     position: absolute;
@@ -41,84 +154,223 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(13, 40, 64, 0.6);
+    
+
+    background: linear-gradient(135deg,
+            rgba(13, 92, 140, 0.65) 0%,
+            rgba(26, 77, 109, 0.55) 50%,
+            rgba(230, 126, 34, 0.45) 100%);
+    z-index: 1;
+}
+
+
+
+/* Floating particles effect */
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px, 80px 80px;
+    background-position: 0 0, 40px 40px;
+    animation: floatParticles 20s linear infinite;
+    z-index: 1;
+}
+
+@keyframes floatParticles {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-100px);
+    }
 }
 
 .hero-content {
     position: relative;
-    z-index: 1;
-    max-width: 800px;
+    z-index: 2;
+    max-width: 900px;
     padding: 2rem;
+    animation: fadeInUp 1.2s ease-out;
 }
 
 .hero-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: 4rem;
+    font-size: 4.5rem;
     font-weight: 700;
     color: white;
     margin: 0;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.8);
+    letter-spacing: 2px;
+    animation: fadeInUp 1s ease-out 0.3s both;
+    line-height: 1.2;
 }
 
 .hero-slogan {
-    font-size: 1.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 2rem;
-    opacity: 0.9;
+    font-size: 1.8rem;
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
     font-family: 'Lato', sans-serif;
     font-style: italic;
+    font-weight: 300;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+    animation: fadeInUp 1s ease-out 0.6s both;
+    letter-spacing: 1px;
 }
 
-/* =================================== */
-/* 3. Home About Section Styles        */
-/* =================================== */
+/* ============================================ */
+/* 4. HOME ABOUT SECTION - Professional Layout */
+/* ============================================ */
+
+.home-about {
+    background: linear-gradient(135deg, var(--bg-cream) 0%, var(--bg-light-gray) 100%);
+}
 
 .home-about-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
-    max-width: 1100px;
+    gap: 3rem;
+    max-width: 1200px;
     margin: 0 auto;
     align-items: center;
+}
+
+.about-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: var(--shadow-heavy);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.about-image:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+.about-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            rgba(13, 92, 140, 0.2) 0%,
+            rgba(230, 126, 34, 0.2) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 1;
+}
+
+.about-image:hover::before {
+    opacity: 1;
 }
 
 .about-image img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.about-image:hover img {
+    transform: scale(1.05);
+}
+
+.about-text {
+    animation: slideInRight 1s ease-out;
 }
 
 .about-text h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-navy);
+    position: relative;
+    display: inline-block;
+    font-weight: 700;
+}
+
+.about-text h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-warm-orange), var(--accent-gold));
+    border-radius: 2px;
 }
 
 .about-text p {
     margin-bottom: 2rem;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text-medium);
 }
 
-/* =================================== */
-/* 4. Featured Dishes Section Styles   */
-/* =================================== */
+/* ============================================ */
+/* 5. FEATURED DISHES - Modern Card Design     */
+/* ============================================ */
+
+.featured-dishes {
+    background: white;
+    position: relative;
+}
+
+.featured-dishes::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(13, 92, 140, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(230, 126, 34, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+}
 
 .featured-dishes-container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .featured-dishes h2 {
-    font-size: 2rem;
-    margin-bottom: 3rem; /* Add this line */
-    hyphens: auto; 
+    font-size: 3rem;
+    margin-bottom: 3.5rem;
+    color: var(--primary-navy);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
 }
 
-/* SwiperJS requires overflow to be visible for navigation */
+.featured-dishes h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-warm-orange), var(--accent-gold));
+    border-radius: 2px;
+}
+
+/* SwiperJS container with enhanced spacing */
 .menuSwiper {
-    overflow: hidden;
-    padding: 10px 0; /* Add padding to prevent hover shadow from being cut off */
+    overflow: visible;
+    padding: 20px 10px 40px;
 }
 
 .dishes-grid {
@@ -129,97 +381,171 @@
 }
 
 .dish-card {
-    background-color: var(--bg-light-gray);
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
     overflow: hidden;
     text-align: left;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: auto; /* Allow card height to be determined by content */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: auto;
     display: flex;
     flex-direction: column;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.dish-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            rgba(13, 92, 140, 0.05) 0%,
+            rgba(230, 126, 34, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .dish-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: var(--shadow-heavy);
+    border-color: var(--accent-warm-orange);
+}
+
+.dish-card:hover::before {
+    opacity: 1;
 }
 
 .dish-card img {
     width: 100%;
-    height: 250px;
+    height: 280px;
     object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.dish-card:hover img {
+    transform: scale(1.1);
 }
 
 .dish-card h3 {
     padding: 1.5rem 1.5rem 0.5rem 1.5rem;
     margin: 0;
+    color: var(--primary-navy);
+    font-size: 1.5rem;
+    font-weight: 600;
+    position: relative;
+    z-index: 2;
 }
 
 .dish-card p {
     padding: 0 1.5rem 1.5rem 1.5rem;
-    font-size: 0.95rem;
+    font-size: 1rem;
     margin: 0;
-    flex-grow: 1; /* Pushes content down to align text */
+    flex-grow: 1;
+    color: var(--text-medium);
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
 }
 
-/* --- NEW: "View Menu" Card Styles --- */
+/* "View Menu" Card with Gradient */
 .dish-card-link {
-    background: var(--primary-navy);
+    background: linear-gradient(135deg, var(--primary-deep-blue) 0%, var(--primary-navy) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    position: relative;
+    overflow: hidden;
 }
+
+.dish-card-link::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.1) 50%,
+            transparent 70%);
+    transform: rotate(45deg);
+    animation: shimmer 3s infinite;
+}
+
 .dish-card-link-content {
     text-decoration: none;
     color: white;
-    padding: 2rem;
+    padding: 2.5rem;
+    position: relative;
+    z-index: 1;
 }
+
 .dish-card-link-content h3 {
     color: white;
-    font-size: 1.8rem;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }
+
 .dish-card-link-content p {
-    color: #ccc;
-    opacity: 0.8;
+    color: rgba(255, 255, 255, 0.85);
+    opacity: 1;
+    font-size: 1.1rem;
 }
+
 .view-menu-icon {
-    font-size: 3rem;
+    font-size: 3.5rem;
     color: var(--accent-gold);
     display: block;
-    margin-top: 1rem;
-    transition: transform 0.3s ease;
+    margin-top: 1.5rem;
+    transition: transform 0.4s ease;
+    animation: pulse 2s ease-in-out infinite;
 }
+
 .dish-card-link:hover .view-menu-icon {
-    transform: translateX(10px);
+    transform: translateX(15px);
+    animation: none;
 }
 
-
-/* --- NEW: Swiper Navigation Button Styles --- */
+/* Enhanced Swiper Navigation Buttons */
 .swiper-button-next,
 .swiper-button-prev {
-    color: var(--primary-navy) !important;
-    background-color: rgba(255, 255, 255, 0.7);
+    color: white !important;
+    background: linear-gradient(135deg, var(--primary-deep-blue), var(--primary-navy));
     border-radius: 50%;
-    width: 50px !important;
-    height: 50px !important;
-    transition: background-color 0.2s ease;
+    width: 55px !important;
+    height: 55px !important;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-medium);
 }
+
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-    background-color: white;
+    background: linear-gradient(135deg, var(--accent-warm-orange), var(--accent-gold));
+    transform: scale(1.1);
+    box-shadow: var(--shadow-heavy);
 }
+
 .swiper-button-next::after,
 .swiper-button-prev::after {
-    font-size: 1.5rem !important;
+    font-size: 1.3rem !important;
     font-weight: bold;
 }
 
 
-/* =================================== */
-/* 5. Why Choose Us Section            */
-/* =================================== */
+/* ============================================ */
+/* 6. WHY CHOOSE US - Animated Feature Cards   */
+/* ============================================ */
+
+.why-choose-us {
+    background: linear-gradient(135deg, var(--bg-light-gray) 0%, white 100%);
+    position: relative;
+}
 
 .why-choose-us-container {
     max-width: 1200px;
@@ -228,29 +554,104 @@
 }
 
 .why-choose-us h2 {
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
+    font-size: 3rem;
+    margin-bottom: 4rem;
+    color: var(--primary-navy);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.why-choose-us h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-warm-orange), var(--accent-gold));
+    border-radius: 2px;
 }
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.feature-item {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.feature-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            rgba(13, 92, 140, 0.05) 0%,
+            rgba(230, 126, 34, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-15px) scale(1.03) !important;
+    box-shadow: var(--shadow-heavy);
+    border-color: var(--accent-warm-orange);
+}
+
+.feature-item:hover::before {
+    opacity: 1;
 }
 
 .feature-icon {
-    font-size: 3rem;
-    color: var(--accent-gold);
-    margin-bottom: 1rem;
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    transition: transform 0.4s ease;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.feature-item:hover .feature-icon {
+    animation: pulse 1s ease-in-out infinite;
 }
 
 .feature-item h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: var(--primary-navy);
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
 }
 
-/* =================================== */
-/* 6. Special Offers Slider Section    */
-/* =================================== */
+.feature-item p {
+    color: var(--text-medium);
+    line-height: 1.7;
+    font-size: 1.05rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================ */
+/* 7. SPECIAL OFFERS - Premium Slider Design   */
+/* ============================================ */
+
+.special-offers {
+    background: white;
+    position: relative;
+}
 
 .offers-container {
     max-width: 1200px;
@@ -259,31 +660,59 @@
 }
 
 .offers-container h2 {
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
+    font-size: 3rem;
+    margin-bottom: 3.5rem;
+    color: var(--primary-navy);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
 }
 
-/* --- UPDATED STYLES START HERE --- */
+.offers-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-warm-orange), var(--accent-gold));
+    border-radius: 2px;
+}
 
-/* Constrain the slider for a more focused look */
+/* Enhanced slider with modern look */
 .offersSwiper {
-    max-width: 750px; /* DECREASED: Made the card narrower */
+    max-width: 850px;
     margin: 0 auto;
+    padding: 20px 0 50px;
 }
 
 .offer-card {
-    position: relative; /* This is crucial for positioning the text on top */
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border-radius: 20px;
+    box-shadow: var(--shadow-heavy);
     overflow: hidden;
-    color: white; /* Set text color to white for the overlay */
+    color: white;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    border: 3px solid transparent;
+}
+
+.offer-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+    border-color: var(--accent-gold);
 }
 
 .offer-card img {
     width: 100%;
-    height: 450px; /* INCREASED: Made the image taller */
+    height: 500px;
     object-fit: cover;
-    display: block; /* Removes any extra space below the image */
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.offer-card:hover img {
+    transform: scale(1.05);
 }
 
 .offer-card-content {
@@ -291,90 +720,387 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 2rem;
-    text-align: center; /* Center the text for a cleaner look */
-    /* This creates the transparent shadowy effect */
-    background: linear-gradient(to top, rgba(13, 40, 64, 0.9) 0%, rgba(13, 40, 64, 0) 100%);
+    padding: 3rem 2rem;
+    text-align: center;
+    background: linear-gradient(to top,
+            rgba(26, 77, 109, 0.95) 0%,
+            rgba(26, 77, 109, 0.7) 50%,
+            rgba(26, 77, 109, 0) 100%);
+    backdrop-filter: blur(1px);
+    transition: padding 0.3s ease;
 }
 
-/* --- UPDATED STYLES END HERE --- */
+.offer-card:hover .offer-card-content {
+    padding: 3.5rem 2rem;
+}
 
 .offer-card-content h3 {
-    margin: 0 0 0.5rem 0;
-    color: white; /* Ensure heading is white */
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.5); /* Add shadow for readability */
+    margin: 0 0 1rem 0;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    letter-spacing: 1px;
 }
 
 .offer-card-content p {
-    font-size: 1rem;
+    font-size: 1.15rem;
     margin: 0;
-    color: rgba(255, 255, 255, 0.9); /* Slightly off-white for the paragraph */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+    line-height: 1.6;
+}
+
+/* Enhanced pagination bullets */
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    transition: all 0.3s ease;
 }
 
 .swiper-pagination-bullet-active {
-    background-color: var(--accent-gold) !important;
+    background: linear-gradient(135deg, var(--accent-warm-orange), var(--accent-gold)) !important;
+    width: 30px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px var(--accent-gold);
 }
 
-/* =================================== */
-/* 7. Testimonials Section Styles      */
-/* =================================== */
+/* ============================================ */
+/* 8. TESTIMONIALS - Elegant Quote Cards       */
+/* ============================================ */
 
 .testimonials {
-    background-color: #eef1f3;
+    background: linear-gradient(135deg, var(--bg-cream) 0%, var(--bg-light-gray) 100%);
+    position: relative;
+}
+
+.testimonials::before {
+    content: '"';
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    font-size: 15rem;
+    color: rgba(13, 92, 140, 0.05);
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
 }
 
 .testimonials-container {
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .testimonials h2 {
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
+    font-size: 3rem;
+    margin-bottom: 3.5rem;
+    color: var(--primary-navy);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.testimonials h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-warm-orange), var(--accent-gold));
+    border-radius: 2px;
 }
 
 .testimonials-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
 .testimonial-card {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    background: white;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-medium);
     border-left: 5px solid var(--accent-gold);
     text-align: left;
+    position: relative;
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+.testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 8rem;
+    color: rgba(230, 126, 34, 0.08);
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-heavy);
+    border-left-width: 8px;
 }
 
 .testimonial-card blockquote {
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.5rem 0;
     font-family: 'Georgia', serif;
     font-style: italic;
-    font-size: 1.1rem;
-    color: var(--text-dark-gray);
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
 }
 
 .testimonial-card cite {
-    font-weight: bold;
+    font-weight: 700;
     color: var(--primary-navy);
     font-style: normal;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
 }
 
-/* =================================== */
-/* 8. Responsive Styles for Homepage   */
-/* =================================== */
+.testimonial-card cite::before {
+    content: '—';
+    color: var(--accent-warm-orange);
+    font-weight: bold;
+}
+
+/* ============================================ */
+/* 9. FAQ SECTION - Interactive Accordion      */
+/* ============================================ */
+
+.home-faq {
+    background: white;
+    position: relative;
+}
+
+.home-faq-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.home-faq h2 {
+    font-size: 3rem;
+    margin-bottom: 3.5rem;
+    color: var(--primary-navy);
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.home-faq h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-warm-orange), var(--accent-gold));
+    border-radius: 2px;
+}
+
+.faq-accordion {
+    margin-bottom: 3rem;
+}
+
+.faq-item {
+    background: white;
+    border: 2px solid var(--bg-light-gray);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: var(--shadow-light);
+}
+
+.faq-question {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 1.5rem 2rem;
+    text-align: left;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-navy);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+    color: var(--accent-warm-orange);
+}
+
+.faq-icon {
+    font-size: 1.5rem;
+    color: var(--accent-warm-orange);
+    transition: transform 0.3s ease;
+    font-weight: bold;
+}
+
+.faq-question[aria-expanded="true"] .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 0 2rem;
+}
+
+.faq-answer p {
+    color: var(--text-medium);
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+.faq-item .faq-answer {
+    padding: 0 2rem;
+}
+
+.faq-question[aria-expanded="true"]+.faq-answer {
+    max-height: 300px;
+    padding: 0 2rem 1.5rem 2rem;
+}
+
+.contact-cta {
+    background: linear-gradient(135deg, var(--primary-deep-blue) 0%, var(--primary-navy) 100%);
+    padding: 3rem;
+    border-radius: 16px;
+    text-align: center;
+    color: white;
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-cta::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.contact-cta h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.contact-cta p {
+    font-size: 1.15rem;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 1;
+}
+
+.contact-cta .button {
+    background: white;
+    color: var(--primary-navy);
+    position: relative;
+    z-index: 1;
+}
+
+.contact-cta .button:hover {
+    background: var(--accent-gold);
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* ============================================ */
+/* 10. RESPONSIVE STYLES - Mobile Optimization */
+/* ============================================ */
 
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
+        letter-spacing: 1px;
     }
 
     .hero-slogan {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
+    }
+
+    .hero-section {
+        background-attachment: scroll;
+    }
+
+    .content-section {
+        padding: 3rem 1.5rem;
+    }
+
+    .about-text h2,
+    .featured-dishes h2,
+    .why-choose-us h2,
+    .offers-container h2,
+    .testimonials h2,
+    .home-faq h2 {
+        font-size: 2.2rem;
+    }
+
+    .feature-item {
+        padding: 2rem 1.5rem;
+    }
+
+    .testimonial-card {
+        padding: 2rem;
+    }
+
+    .offer-card img {
+        height: 350px;
+    }
+
+    .dish-card img {
+        height: 220px;
+    }
+
+    .testimonials::before {
+        font-size: 8rem;
+        top: 20px;
+        left: 20px;
     }
 }
 
@@ -386,5 +1112,136 @@
 
     .testimonials-grid {
         grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-title {
+        font-size: 5rem;
+    }
+
+    .hero-slogan {
+        font-size: 2rem;
+    }
+}
+
+/* ============================================ */
+/* 11. ENHANCED BUTTON STYLES                  */
+/* ============================================ */
+
+.button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--accent-warm-orange) 0%, var(--accent-gold) 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: 2px solid transparent;
+    letter-spacing: 0.5px;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-deep-blue) 0%, var(--primary-navy) 100%);
+    transition: left 0.4s ease;
+    z-index: -1;
+}
+
+.button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: var(--shadow-heavy);
+    border-color: var(--primary-navy);
+    color:#FAF8F5 !important ;
+}
+
+.button:hover::before {
+    left: 0;
+}
+
+.button:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+
+
+.hero-content .button:hover {
+    color: #F5F7FA;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* ============================================ */
+/* 12. SCROLL REVEAL ANIMATIONS (AOS Support)  */
+/* ============================================ */
+
+[data-aos] {
+    opacity: 0;
+    transition-property: opacity, transform;
+}
+
+[data-aos].aos-animate {
+    opacity: 1;
+}
+
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+}
+
+[data-aos="fade-up"].aos-animate {
+    transform: translateY(0);
+}
+
+/* ============================================ */
+/* 13. ACCESSIBILITY & FOCUS STATES            */
+/* ============================================ */
+
+*:focus {
+    outline-offset: 3px;
+}
+
+.faq-question:focus{
+    outline-offset: 3px;
+}
+
+.button:focus {
+    outline: 3px solid var(--accent-gold);
+    outline-offset: 3px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .hero-section::before {
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .button {
+        border: 3px solid white;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
     }
 }

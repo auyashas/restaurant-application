@@ -222,14 +222,16 @@ body.admin-login-page {
 .add-item-form {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem; /* Increased gap slightly */
+    gap: 1.5rem;
+    /* Increased gap slightly */
 }
 
 /* General form styling, separate from grid layout */
 form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Increased gap slightly */
+    gap: 1.5rem;
+    /* Increased gap slightly */
 }
 
 .form-group {
@@ -296,6 +298,8 @@ form {
 .data-table {
     border-collapse: collapse;
     margin-top: 1.5rem;
+    width: 100%;
+    overflow: scroll;
 }
 
 .data-table th,
@@ -304,7 +308,6 @@ form {
     text-align: left;
     border-bottom: 1px solid #eee;
     white-space: nowrap;
-    overflow: scroll; 
 }
 
 .data-table th {
