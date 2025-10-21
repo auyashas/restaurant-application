@@ -16,6 +16,8 @@ $is_logged_in = isset($_SESSION['user_id']);
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Add SwiperJS CSS for sliders -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <!-- Add this with your other stylesheets -->
+    <link rel="stylesheet" href="css/scroll_to_top.css">
     <link rel="stylesheet" href="css/home-style.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/header.css">

@@ -40,7 +40,8 @@
             <p>&copy; <?php echo date("Y"); ?> The Malabar Table. All rights reserved.</p>
         </div>
     </footer>
-
+    <?php include 'includes/scroll_to_top.php'; ?>
+    <script src="js/scroll_to_top.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="js/main.js"></script>
