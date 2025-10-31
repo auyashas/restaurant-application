@@ -73,13 +73,13 @@ include 'includes/header.php';
                 <form id="contactForm" action="contact.php" method="POST">
                     <div class="form-group">
                         <label for="name">Full Name *</label>
-                        <input type="text" id="name" name="name" placeholder="John Doe">
+                        <input type="text" id="name" name="name" placeholder="Your Name">
                         <span class="error-message" id="nameError">Please enter your name</span>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" placeholder="john@example.com">
+                        <input type="email" id="email" name="email" placeholder="abc@example.com">
                         <span class="error-message" id="emailError">Please enter a valid email</span>
                     </div>
 

@@ -2,6 +2,7 @@
 session_start();
 require_once "config.php";
 
+// If user is already logged in, redirect them
 if (isset($_SESSION["user_id"])) {
     header("location: index.php");
     exit;
@@ -46,15 +47,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->close();
             }
         }
+        
+        // --- UPDATED PASSWORD VALIDATION BLOCK ---
         $password = trim($_POST["password"]);
         $confirm_password = trim($_POST["confirm_password"]);
-        if(empty($password)){ $password_err = "Password is required."; } elseif(strlen($password) < 6){ $password_err = "Password must have at least 6 characters."; }
-        if(empty($confirm_password)){ $confirm_password_err = "Please confirm password."; } elseif(empty($password_err) && ($password != $confirm_password)){ $confirm_password_err = "Passwords did not match."; }
+
+        if(empty($password)){
+            $password_err = "Password is required.";
+        } elseif(strlen($password) < 8){
+            $password_err = "Password must have at least 8 characters.";
+        } elseif(!preg_match('/[0-9]/', $password)){
+            $password_err = "Password must contain at least one number.";
+        } elseif(!preg_match('/[^a-zA-Z\d]/', $password)){
+            $password_err = "Password must contain at least one special character.";
+        }
+
+        if(empty($confirm_password)){ 
+            $confirm_password_err = "Please confirm password."; 
+        } elseif(empty($password_err) && ($password != $confirm_password)){ 
+            $confirm_password_err = "Passwords did not match."; 
+        }
+        // --- END OF UPDATED BLOCK ---
         
         if(empty($name_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)){
             $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
             if($stmt = $mysqli->prepare($sql)){
-                // THE CRITICAL FIX: Hash the password BEFORE binding it
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                 $stmt->bind_param("sss", $name, $email, $hashed_password);
                 if($stmt->execute()){ header("location: login.php?registered=true"); exit(); } 

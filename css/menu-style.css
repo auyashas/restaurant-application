@@ -155,12 +155,15 @@
     margin-bottom: 0.8rem;
     border-bottom: 1px dashed #ddd;
     padding-bottom: 0.8rem;
+    gap: 1rem; /* Added gap for spacing */
 }
 
 .item-name {
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--primary-navy);
+    overflow-wrap: break-word; /* Allows long names to wrap */
+    word-wrap: break-word;
 }
 
 .item-price {
@@ -184,4 +187,15 @@
     .menu-section { scroll-margin-top: 120px; }
 }
 
-/*changes
+/* FIX for very narrow screens */
+@media (max-width: 320px) {
+    .menu-grid {
+        /* Override minmax and force a single, flexible column */
+        grid-template-columns: 1fr;
+    }
+
+    .item-header {
+        /* Allow the price to drop below the name if space is tight */
+        flex-wrap: wrap;
+    }
+}

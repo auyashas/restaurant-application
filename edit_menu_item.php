@@ -139,11 +139,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="form-group">
                             <label>Category</label>
-                            <select name="category" required>
-                                <option value="Appetizer" <?php if ($category == "Appetizer") echo "selected"; ?>>Appetizer</option>
-                                <option value="Main Course" <?php if ($category == "Main Course") echo "selected"; ?>>Main Course</option>
-                                <option value="Dessert" <?php if ($category == "Dessert") echo "selected"; ?>>Dessert</option>
-                                <option value="Beverage" <?php if ($category == "Beverage") echo "selected"; ?>>Beverage</option>
+                            <select id="category" name="category" required>
+                                <option value="" disabled <?php if(empty($category)) echo 'selected'; ?>>-- Select a Category --</option>
+                                <option value="Starters" <?php if($category == 'Starters') echo 'selected'; ?>>Starters</option>
+                                <option value="Soups" <?php if($category == 'Soups') echo 'selected'; ?>>Soups</option>
+                                <option value="North Indian" <?php if($category == 'North Indian') echo 'selected'; ?>>North Indian</option>
+                                <option value="South Indian" <?php if($category == 'South Indian') echo 'selected'; ?>>South Indian</option>
+                                <option value="Rice & Noodles" <?php if($category == 'Rice & Noodles') echo 'selected'; ?>>Rice & Noodles</option>
+                                <option value="Breads" <?php if($category == 'Breads') echo 'selected'; ?>>Breads</option>
+                                <option value="Desserts" <?php if($category == 'Desserts') echo 'selected'; ?>>Desserts</option>
+                                <option value="Beverages" <?php if($category == 'Beverages') echo 'selected'; ?>>Beverages</option>
                             </select>
                         </div>
                         <div class="form-group">

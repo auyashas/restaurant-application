@@ -2,18 +2,20 @@
 /* 1. Homepage Layout Fixes            */
 /* =================================== */
 
-/* This pushes the main content down to account for the fixed header */
-
-
 /* General helper classes for content sections */
 .content-section {
     padding: 4rem 2rem;
 }
 
+/* FIX: Ensures ALL long words in headings can wrap */
+h2, h3 {
+    overflow-wrap: break-word;
+    word-wrap: break-word; /* Older browser support */
+}
+
 .content-section.bg-white {
     background-color: #fff;
 }
-
 
 /* =================================== */
 /* 2. Hero Section Styles              */
@@ -32,7 +34,6 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
-
 
 .hero-section::before {
     content: '';
@@ -112,8 +113,7 @@
 .featured-dishes h2 {
     font-size: 2rem !important;
     margin-bottom: 3rem;
-    word-break:auto;
-    hyphens:auto;
+    hyphens: auto;
 }
 
 /* SwiperJS requires overflow to be visible for navigation */
@@ -196,7 +196,6 @@
     transform: translateX(10px);
 }
 
-
 /* --- NEW: Swiper Navigation Button Styles --- */
 .swiper-button-next,
 .swiper-button-prev {
@@ -216,7 +215,6 @@
     font-size: 1.5rem !important;
     font-weight: bold;
 }
-
 
 /* =================================== */
 /* 5. Why Choose Us Section            */
@@ -357,6 +355,9 @@
     font-style: italic;
     font-size: 1.1rem;
     color: var(--text-dark-gray);
+    /* FIX: Ensure long words in quotes can wrap */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .testimonial-card cite {
@@ -389,3 +390,37 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+
+/* =================================== */
+/* 9. FIX FOR VERY NARROW SCREENS      */
+/* =================================== */
+
+@media (max-width: 320px) {
+    /* Reduce padding to give content more space */
+    .content-section {
+        padding: 3rem 1rem;
+    }
+
+    /* Reduce ALL heading sizes to prevent overflow */
+    .content-section h2 {
+        font-size: 1.8rem !important;
+    }
+    .content-section h3 {
+        font-size: 1.3rem;
+    }
+
+    /* Force the grid to a single column and allow it to shrink */
+    .features-grid {
+        grid-template-columns: 1fr; /* Ensures single column layout */
+    }
+
+    /* Reduce the height of the dish images */
+    .dish-card img {
+        height: 250px;
+    }
+    
+    /* FIX: Reduce padding for testimonial cards */
+    .testimonial-card {
+        padding: 1.5rem 1rem;
+    }
+}   
