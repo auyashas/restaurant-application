@@ -26,10 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt->store_result();
                     if ($stmt->num_rows == 1) {
                         $stmt->bind_result($id, $name, $hashed_password);
-                        if ($stmt->fetch() && password_verify($password, $hashed_password)) {
-                            $_SESSION["user_id"] = $id; $_SESSION["user_name"] = $name;
-                            header("location: index.php"); exit();
-                        } else { $login_err = "Invalid email or password."; }
+                        if ($stmt->fetch()) {
+                            if (is_string($hashed_password) && password_verify($password, $hashed_password)) {
+                                $_SESSION["user_id"] = $id; $_SESSION["user_name"] = $name;
+                                header("location: index.php"); exit();
+                            } else {
+                                $login_err = "Invalid email or password.";
+                            }
+                        } else {
+                            $login_err = "Invalid email or password.";
+                        }
                     } else { $login_err = "Invalid email or password."; }
                 }
                 $stmt->close();
@@ -103,23 +109,23 @@ $mysqli->close();
                 <?php if(!empty($register_err_general)) echo '<p class="error-message">' . $register_err_general . '</p>'; ?>
                 
                 <div class="input-box">
-                    <input type="text" id="reg-name" name="name" value="<?php echo htmlspecialchars($name); ?>" required />
+                    <input type="text" id="reg-name" name="name" value="<?php echo htmlspecialchars($name); ?>" required placeholder=" " />
                     <label for="reg-name">Full Name</label>
                     <span class="field-error"><?php echo $name_err; ?></span>
                 </div>
                 <div class="input-box">
-                    <input type="email" id="reg-email" name="email" value="<?php echo htmlspecialchars($email); ?>" required />
+                    <input type="email" id="reg-email" name="email" value="<?php echo htmlspecialchars($email); ?>" required placeholder=" "/>
                     <label for="reg-email">Email</label>
                     <span class="field-error"><?php echo $email_err; ?></span>
                 </div>
                 <div class="input-box">
-                    <input type="password" id="reg-password" name="password" class="password-input" required />
+                    <input type="password" id="reg-password" name="password" class="password-input" required placeholder=" " />
                     <label for="reg-password">Password</label>
                     <img src="images/icons/eye.svg" class="toggle-password" alt="Show/Hide password">
                     <span class="field-error"><?php echo $password_err; ?></span>
                 </div>
                 <div class="input-box">
-                    <input type="password" id="confirm_password" name="confirm_password" class="password-input" required />
+                    <input type="password" id="confirm_password" name="confirm_password" class="password-input" required placeholder=" " />
                     <label for="confirm_password">Confirm Password</label>
                     <img src="images/icons/eye.svg" class="toggle-password" alt="Show/Hide password">
                     <span class="field-error"><?php echo $confirm_password_err; ?></span>
@@ -138,11 +144,11 @@ $mysqli->close();
                 <?php if(isset($_GET['registered'])) echo '<p class="success-message">Registration successful! Please log in.</p>'; ?>
 
                 <div class="input-box">
-                    <input type="email" id="login-email" name="email" required />
+                    <input type="email" id="login-email" name="email" required placeholder=" " />
                     <label for="login-email">Email</label>
                 </div>
                 <div class="input-box">
-                    <input type="password" id="login-password" name="password" class="password-input" required />
+                    <input type="password" id="login-password" name="password" class="password-input" required placeholder=" " />
                     <label for="login-password">Password</label>
                     <img src="images/icons/eye.svg" class="toggle-password" alt="Show/Hide password">
                 </div>

@@ -78,12 +78,23 @@ input {
 input:focus { border-color: var(--accent-gold); }
 
 .input-box label {
-    position: absolute; top: 50%; left: 15px; transform: translateY(-50%);
-    color: #888; font-size: 14px; pointer-events: none; transition: all 0.3s ease;
+    position: absolute; 
+    top: 50%; 
+    left: 15px; 
+    transform: translateY(-50%);
+    color: #888; 
+    font-size: 14px; 
+    pointer-events: none; 
+    transition: all 0.3s ease;
 }
-.input-box input:focus ~ label, .input-box input:valid ~ label {
-    top: -10px; left: 10px; font-size: 12px;
-    background: white; padding: 0 5px; color: var(--primary-navy);
+.input-box input:focus ~ label, 
+.input-box input:not(:placeholder-shown) ~ label {
+    top: -10px; 
+    left: 10px; 
+    font-size: 12px;
+    background: white; 
+    padding: 0 5px; 
+    color: var(--primary-navy);
 }
 
 .toggle-password {
