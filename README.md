@@ -4,6 +4,10 @@ _Savour the story in every bite._
 
 This is a final year project to create a modern, responsive, and accessible website for a fictional restaurant, "The Malabar Table". The system will provide an online presence for the restaurant, allow users to book tables, and include an admin panel for managing reservations and the menu.
 
+🔗 **Live Preview:** https://restaurant-application.free.nf/
+
+[![Live Preview](https://img.shields.io/badge/Live%20Preview-Visit%20Site-brightgreen)](https://restaurant-application.free.nf/)
+
 ---
 
 ### Team Members
