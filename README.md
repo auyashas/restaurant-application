@@ -12,10 +12,10 @@ This is a final year project to create a modern, responsive, and accessible webs
 
 ### Team Members
 
-* **[A U Yashas]**
-* **[Chenthan]** 
-* **[Kavya]**
-* **[SandhyaLakshmi]**
+* **[A U Yashas](https://www.github.com/auyashas)**
+* **[Chenthan](https://github.com/chethan8757)** 
+* **[Kavya](https://github.com/KavyaSherigar-12)**
+* **[SandhyaLakshmi](https://github.com/sandhyabaliga)**
 
 ---
 
