@@ -246,4 +246,3 @@ If you found this project useful,
 
 ---
 
-Made with ❤️ by **A U Yashas**
